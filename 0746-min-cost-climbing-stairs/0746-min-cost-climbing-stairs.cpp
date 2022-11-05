@@ -8,6 +8,6 @@ public:
             int two=a[i-2]+cost[i-2];
             a[i]=min(one,two);
         }
-        return a[a.size()-1];
+        return a[n];
     }
 };
