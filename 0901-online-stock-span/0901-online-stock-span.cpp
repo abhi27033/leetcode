@@ -4,15 +4,15 @@ public:
       //StockSpanner* obj = new StockSpanner();
      // int param_1 = obj->next(price);  
     }
-     stack<pair<int,int>> stack;
+     stack<pair<int,int>> stk;
     int next(int price) {
-          int ans = 1;
-        while (!stack.empty() && stack.top().first <= price) {
-            ans += stack.top().second;
-            stack.pop();
+        int ans=1;
+        while(!stk.empty()&&stk.top().first<=price)
+        {
+            ans+=stk.top().second;
+            stk.pop();
         }
-        
-        stack.push({price, ans});
+        stk.push({price,ans});
         return ans;
     }
 };
