@@ -1,38 +1,34 @@
 class Solution {
 public:
     int closedIsland(vector<vector<int>>& grid) {
-        int closedIslands = 0;
-
-        for (int i=0; i<grid.size(); i++) {
-            for (int j=0; j<grid[0].size(); j++) {
-                // Only check land plots for closed islands.
-                if (grid[i][j] == 0 && dfs(grid, i, j)) {
-                    closedIslands++;
+        int ans=0;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[0].size();j++)
+            {
+                if(grid[i][j]==0)
+                {
+                    if(dfs(grid,i,j))
+                        ans++;
                 }
             }
         }
-
-        return closedIslands;
+        return ans;
     }
-private:
-    bool dfs(vector<vector<int>>& grid, int i, int j) {
-        // If it's out of bounds, it cannot be a closed island.
-        if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size()) {
+    bool dfs(vector<vector<int>>& grid,int r,int c)
+    {
+        if(r<0||c<0||r>grid.size()-1||c>grid[0].size()-1)
             return false;
-        } else if (grid[i][j] == 1) {
+        if(grid[r][c]==2||grid[r][c]==1)
             return true;
-        }
-
-        // Convert to water to avoid re-calculation later on.
-        grid[i][j] = 1;
-
-        // You must calculate dfs of all four sides to ensure water conversion of entire subisland.
-        bool up = dfs(grid, i-1, j);
-        bool down = dfs(grid, i+1, j);
-        bool left = dfs(grid, i, j-1);
-        bool right = dfs(grid, i, j+1);
-
-        // If it's all surrounded by water, it's a closed island.
-        return up && down && left && right;
+        grid[r][c]=2;
+        bool x=dfs(grid,r-1,c);
+        bool y=dfs(grid,r,c-1);
+        bool z=dfs(grid,r+1,c);
+        bool a=dfs(grid,r,c+1);
+            if(a&&x&&y&&z)
+            return true;
+        else
+            return false;
     }
 };
