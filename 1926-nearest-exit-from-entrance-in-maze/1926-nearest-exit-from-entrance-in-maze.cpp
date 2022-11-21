@@ -1,43 +1,43 @@
 class Solution {
 public:
     int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
-        int m=maze.size();
-        int n=maze[0].size();
-        queue<pair<int,int>>q;
-        int i=entrance[0];
-        int j=entrance[1];
-        q.push({i,j});
-        maze[i][j];
-        int l=0;
-        int dr[4]={0,0,1,-1};
-        int dc[4]={1,-1,0,0};
-        maze[i][j]='+';
-        while(!q.empty()){
-            int size=q.size();
-            l++;
-            for(int k=0;k<size;k++){
-            auto x=q.front();
-            q.pop();
-            int row=x.first;
-            int col=x.second;
-            for(int j=0;j<4;j++){
-                int new_row=row+dr[j];
-                 int new_col=col+dc[j];
-                 if(new_row>=0 && new_col>=0 && new_row<=m-1 && new_col<=n-1)
-                 {
-                 if(maze[new_row][new_col]=='+'){
-                     continue;
-                 }
-                 if(new_row==0 || new_col==0 || new_row==m-1 || new_col==n-1){
-                     return l;
-                 }
-                  q.push({new_row,new_col});
-                   maze[new_row][new_col]='+';
-            }
-            }
+        int rows = int(maze.size()), cols = int(maze[0].size());
+        vector<pair<int, int>> dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        
+        // Mark the entrance as visited since its not a exit.
+        int startRow = entrance[0], startCol = entrance[1];
+        maze[startRow][startCol] = '+';
+        
+        // Start BFS from the entrance, and use a queue `queue` to store all 
+        // the cells to be visited.
+        queue<array<int, 3>> queue;
+        queue.push({startRow, startCol, 0});
+        
+        while (!queue.empty()) {
+            auto [currRow, currCol, currDistance] = queue.front();
+            queue.pop();
+            
+            // For the current cell, check its four neighbor cells.
+            for (auto dir : dirs) {
+                int nextRow = currRow + dir.first, nextCol = currCol + dir.second;
 
+                // If there exists an unvisited empty neighbor:
+                if (0 <= nextRow && nextRow < rows && 0 <= nextCol && nextCol < cols \
+                   && maze[nextRow][nextCol] == '.') {
+                    
+                    // If this empty cell is an exit, return distance + 1.
+                    if (nextRow == 0 || nextRow == rows - 1 || nextCol == 0 || nextCol == cols - 1)
+                        return currDistance + 1;
+                    
+                    // Otherwise, add this cell to 'queue' and mark it as visited.
+                    maze[nextRow][nextCol] = '+';
+                    queue.push({nextRow, nextCol, currDistance + 1});
+                    
+                }
+            }
         }
-        }
+        
+        // If we finish iterating without finding an exit, return -1.
         return -1;
     }
 };
