@@ -8,8 +8,9 @@ public:
                 
                 dfs(g,sp,visit,x.first);
             }
-            sp=min(x.second,sp);
+           sp=min(x.second,sp);
         }
+         
         return sp;
     }
     int minScore(int n, vector<vector<int>>& roads) {
