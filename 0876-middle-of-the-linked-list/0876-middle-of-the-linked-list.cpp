@@ -19,16 +19,7 @@ public:
             c++;
             n=n->next;
         }
-        if(c%2==0)
-        {
-            c/=2;
-           // c--;
-            
-        }
-        else
-        {
-            c/=2;
-        }
+        c/=2;
         while(c!=0)
         {
             nn=nn->next;
